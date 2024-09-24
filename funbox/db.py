@@ -1,9 +1,8 @@
 import sqlite3
 
 
-conn = sqlite3.connect("mydb.sql")
-
 def create_table_links():
+    conn = sqlite3.connect("mydb.sql")
     curs = conn.cursor()
     curs.execute(""" CREATE TABLE IF NOT EXISTS links
                      (
@@ -13,3 +12,12 @@ def create_table_links():
                      );
                      """)
     conn.commit()
+    conn.close()
+
+def select_links():
+    conn = sqlite3.connect("mydb.sql")
+    curs = conn.cursor()
+    curs.execute("SELECT DISTINCT url FROM links")
+    links = curs.fetchall()
+    conn.close()
+    return links or []
