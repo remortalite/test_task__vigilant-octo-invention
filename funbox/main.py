@@ -17,8 +17,8 @@ def normalize_url(url):
 
 @app.get("/visited_links")
 def visited_links_get():
-    start_date = request.args.get('from', 0)
-    end_date = request.args.get('to', -1)
+    start_date = request.args.get('from', '-inf')
+    end_date = request.args.get('to', '+inf')
 
     links = [x.decode() for x in r.zrange('app:urls', start_date, end_date, withscores=False, byscore=True)]
     return {
