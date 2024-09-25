@@ -1,9 +1,11 @@
-from funbox.db import create_table_links, select_links
 from flask import Flask, json, request
 from urllib.parse import urlparse
+from redis import Redis
+from datetime import datetime
 
 
 app = Flask(__name__)
+r = Redis('localhost', port=6379)
 
 
 def normalize_url(url):
@@ -15,7 +17,10 @@ def normalize_url(url):
 
 @app.get("/visited_links")
 def visited_links_get():
-    links = select_links()
+    start_date = request.args.get('from', 0)
+    end_date = request.args.get('to', -1)
+
+    links = [x.decode() for x in r.zrange('app:urls', start_date, end_date, withscores=False, byscore=True)]
     return {
             "domains": links,
             "status": "ok"
@@ -24,16 +29,14 @@ def visited_links_get():
 
 @app.post("/visited_links")
 def visited_links_post():
-    data = request.data
-    data = json.loads(data)
+    data = json.loads(request.data)
     links = data["links"]
-    normalized_links = set()
+    c = 0
     for link in links:
-        normalized_links.add(normalize_url(link))
+        c += r.zadd('app:urls', {normalize_url(link): int(datetime.timestamp(datetime.now()))})
+        print(datetime.timestamp(datetime.now()))
     return {}
 
 
 if __name__ == "__main__":
-    create_table_links()
-
     app.run()
