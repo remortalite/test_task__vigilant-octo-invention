@@ -1,7 +1,7 @@
 import pytest
 from redis import Redis
 
-from .main import app, r
+from .main import app, r, normalize_url
 
 
 @pytest.fixture
@@ -19,3 +19,18 @@ def test_visited_links(client):
         assert 'test_hello.com' in response.json['domains']
         assert 'test_yandex.ru' in response.json['domains']
         assert response.json['status'] == 'ok'
+
+
+def test_normalize_url():
+    data = 'hello.com'
+    exp = 'hello.com'
+    assert normalize_url(data) == exp
+
+    data = 'https://yandex.ru'
+    exp = 'yandex.ru'
+    assert normalize_url(data) == exp
+
+    data = 'hello.com?from=2&to=3'
+    exp = 'hello.com'
+    assert normalize_url(data) == exp
+
