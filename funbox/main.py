@@ -31,10 +31,9 @@ def visited_links_get():
 def visited_links_post():
     data = json.loads(request.data)
     links = data["links"]
-    c = 0
+    ts_now = int(datetime.timestamp(datetime.now()))
     for link in links:
-        c += r.zadd('app:urls', {normalize_url(link): int(datetime.timestamp(datetime.now()))})
-        print(datetime.timestamp(datetime.now()))
+        r.zadd('app:urls', {normalize_url(link): ts_now})
     return {}
 
 
