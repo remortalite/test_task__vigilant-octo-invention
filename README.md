@@ -20,4 +20,4 @@ If you need to stop docker redis process, enter `make stop-docker`
 make run
 ```
 
-Then go to `http://localhost:5000/visited_sites` and have fun (not really, but yeah).
+Then go to http://localhost:5000/visited_links and have fun (not really, but yeah).
