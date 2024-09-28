@@ -14,10 +14,10 @@ make run-docker
 
 If you need to stop docker redis process, enter `make stop-docker`
 
-2. Then run the app using:
+2. Run the app using:
 
 ```bash
 make run
 ```
 
-Then go to `localhost:8080/visited_sites` and have fun (not really, but yeah).
+Then go to `http://localhost:5000/visited_sites` and have fun (not really, but yeah).
