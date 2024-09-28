@@ -1,7 +1,7 @@
 import pytest
 from redis import Redis
 
-from .main import app, r, normalize_url
+from .main import app, normalize_url
 
 
 @pytest.fixture
