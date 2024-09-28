@@ -1,5 +1,5 @@
 run-redis:
-	docker run -d --name redis-for-funbox -p 6379:6379 -it redis/redis-stack:latest
+	docker start redis-for-funbox || docker run -d --name redis-for-funbox -p 6379:6379 -it redis/redis-stack:latest
 
 stop-redis:
 	docker stop redis-for-funbox
